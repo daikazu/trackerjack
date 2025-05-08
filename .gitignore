@@ -23,6 +23,7 @@ _ide_helper_models.php
 /.idea
 /.fleet
 /.vscode
+.cursorrules
 
 # Misc
 phpunit.xml
@@ -30,3 +31,4 @@ phpstan.neon
 testbench.yaml
 /docs
 /coverage
+rector.php

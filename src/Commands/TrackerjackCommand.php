@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Daikazu\Trackerjack\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class TrackerjackCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'trackerjack';
 
     public $description = 'My command';
 
