@@ -11,6 +11,6 @@ class Trackerjack extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \Daikazu\Trackerjack\Trackerjack::class;
+        return 'trackerjack';
     }
 }
