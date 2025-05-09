@@ -1,11 +1,22 @@
-# This is my package trackerjack
+# Trackerjack
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/daikazu/trackerjack.svg?style=flat-square)](https://packagist.org/packages/daikazu/trackerjack)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/daikazu/trackerjack/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/daikazu/trackerjack/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/daikazu/trackerjack/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/daikazu/trackerjack/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/daikazu/trackerjack.svg?style=flat-square)](https://packagist.org/packages/daikazu/trackerjack)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Trackerjack is a powerful Laravel package for tracking website visits and events. It provides a simple way to monitor user behavior, track UTM parameters, and analyze visitor patterns in your Laravel application.
+
+## Features
+
+- Automatic visit tracking with middleware
+- UTM parameter tracking
+- Custom event tracking
+- User attribution
+- Terminal UI for viewing tracking data
+- Automatic data cleanup
+- Configurable tracking rules
+- Privacy-focused with configurable cookie settings
 
 ## Installation
 
@@ -28,24 +39,104 @@ You can publish the config file with:
 php artisan vendor:publish --tag="trackerjack-config"
 ```
 
-This is the contents of the published config file:
+## Configuration
+
+The configuration file (`config/trackerjack.php`) allows you to customize various aspects of the tracking:
 
 ```php
 return [
+    'cookie' => [
+        'name' => 'trackerjack_id',
+        'ttl' => 60 * 24 * 365, // 1 year in minutes
+        'domain' => env('SESSION_DOMAIN'),
+    ],
+
+    'utm_parameters' => [
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_term',
+        'utm_content',
+    ],
+
+    'excluded_routes' => [
+        'admin/*',
+        'api/*',
+        'horizon/*',
+        'telescope/*',
+    ],
+
+    'cleanup' => [
+        'visits_older_than' => 60 * 24 * 30, // 30 days in minutes
+        'events_older_than' => 60 * 24 * 90, // 90 days in minutes
+    ],
+
+    'allowed_events' => null, // Set to null to allow all events
+
+    'uniqueness' => true, // Enable/disable unique visitor tracking
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="trackerjack-views"
 ```
 
 ## Usage
 
+### Automatic Visit Tracking
+
+Add the middleware to your routes or middleware groups:
+
 ```php
-$trackerjack = new Daikazu\Trackerjack();
-echo $trackerjack->echoPhrase('Hello, Daikazu!');
+// In your `app/Http/Kernel.php`
+protected $middlewareGroups = [
+    'web' => [
+        // ... other middleware
+        \Daikazu\Trackerjack\Http\Middleware\TrackVisits::class,
+    ],
+];
+```
+
+### Tracking Custom Events
+
+```php
+use Daikazu\Trackerjack\Facades\Trackerjack;
+
+// Track a simple event
+Trackerjack::trackEvent('button_clicked');
+
+// Track an event with additional data
+Trackerjack::trackEvent('form_submitted', [
+    'form_id' => 'contact',
+    'fields' => ['name', 'email'],
+]);
+```
+
+### Binding Events to Users
+
+When a user logs in, you can bind their previous anonymous events to their account:
+
+```php
+use Daikazu\Trackerjack\Facades\Trackerjack;
+
+// In your login handler
+Trackerjack::bindToUser($user);
+```
+
+### Viewing Tracking Data
+
+Use the terminal UI to view tracking data:
+
+```bash
+php artisan trackerjack:tui
+```
+
+### Data Cleanup
+
+The package includes commands to clean up old tracking data:
+
+```bash
+# Clean up old visits
+php artisan trackerjack:prune-visits
+
+# Clean up old events
+php artisan trackerjack:prune-events
 ```
 
 ## Testing
