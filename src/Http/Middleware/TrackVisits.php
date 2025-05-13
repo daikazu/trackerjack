@@ -82,6 +82,7 @@ class TrackVisits
             'utm_campaign' => $request->get('utm_campaign'),
             'utm_term' => $request->get('utm_term'),
             'utm_content' => $request->get('utm_content'),
+            'gclid' => $request->get('gclid'),
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
         ];

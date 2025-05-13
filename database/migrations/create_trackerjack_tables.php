@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('utm_campaign')->nullable();
             $table->string('utm_term')->nullable();
             $table->string('utm_content')->nullable();
+            $table->string('gclid')->nullable();
             $table->string('ip_address')->nullable();
             $table->string('user_agent')->nullable();
             $table->timestamps();

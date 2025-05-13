@@ -20,6 +20,7 @@ class Visit extends Model
         'utm_campaign',
         'utm_term',
         'utm_content',
+        'gclid',
         'ip_address',
         'user_agent',
     ];
