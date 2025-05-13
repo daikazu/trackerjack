@@ -88,4 +88,18 @@ return [
    */
     'uniqueness' => true,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Queue Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configure how visits and events are processed
+    |
+    */
+    'queue' => [
+        'batch_size' => env('TRACKERJACK_BATCH_SIZE', 100),
+        'queue_name' => env('TRACKERJACK_QUEUE', 'default'),
+        'retry_after' => env('TRACKERJACK_RETRY_AFTER', 60),
+        'tries' => env('TRACKERJACK_TRIES', 3),
+    ],
 ];
