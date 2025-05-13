@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Daikazu\Trackerjack\Jobs;
 
+use Daikazu\Trackerjack\DataTransferObjects\EventData;
 use Daikazu\Trackerjack\Models\Event;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,22 +17,12 @@ class ProcessEvent implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        protected string $visitorId,
-        protected string $eventName,
-        protected array $payload,
-        protected ?int $userId = null,
-        protected ?string $email = null,
+        protected EventData $eventData
     ) {
     }
 
     public function handle(): void
     {
-        Event::create([
-            'visitor_id' => $this->visitorId,
-            'event_name' => $this->eventName,
-            'payload' => $this->payload,
-            'user_id' => $this->userId,
-            'email' => $this->email,
-        ]);
+        Event::create($this->eventData->toArray());
     }
 } 
