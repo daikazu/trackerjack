@@ -20,6 +20,8 @@ class Event extends Model
         'payload',
         'user_id',
         'email',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [

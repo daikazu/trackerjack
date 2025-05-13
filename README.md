@@ -67,6 +67,54 @@ $eventData = new EventData(
 ProcessEvent::dispatch($eventData);
 ```
 
+### Frontend Event Tracking
+
+Trackerjack provides a simple JavaScript helper for tracking events from your frontend code. First, include the JavaScript file in your layout:
+
+
+add the following to your head
+```html
+<meta name="csrf-token" content="{{ csrf_token() }}">
+```
+
+```html
+<script src="{{ asset('js/trackerjack.js') }}"></script>
+```
+
+Then you can track events from anywhere in your JavaScript code:
+
+```javascript
+// Track a simple event
+Trackerjack.track('button_click');
+
+// Track an event with payload
+Trackerjack.track('purchase', {
+    amount: 99.99,
+    currency: 'USD',
+    product_id: 123
+});
+
+// Track an event with async/await
+async function handlePurchase() {
+    try {
+        await Trackerjack.track('purchase_completed', {
+            order_id: '12345',
+            total: 149.99
+        });
+        console.log('Purchase tracked successfully');
+    } catch (error) {
+        console.error('Failed to track purchase:', error);
+    }
+}
+```
+
+The frontend tracking implementation includes:
+- Automatic CSRF token handling
+- Proper error handling
+- Promise-based API for modern async/await usage
+- Automatic visitor ID inclusion
+- Automatic user ID and email inclusion for authenticated users
+
 ### Data Transfer Objects
 
 Trackerjack uses Data Transfer Objects (DTOs) to ensure type safety and data consistency. The package provides two main DTOs:

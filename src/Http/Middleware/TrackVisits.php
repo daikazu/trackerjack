@@ -6,20 +6,29 @@ namespace Daikazu\Trackerjack\Http\Middleware;
 
 use Closure;
 use Daikazu\Trackerjack\Jobs\ProcessVisitBatch;
+use Daikazu\Trackerjack\Services\VisitorIdentifier;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class TrackVisits
 {
     protected static array $visitBuffer = [];
+
     protected const BATCH_SIZE = 100;
+
+    protected VisitorIdentifier $visitorIdentifier;
+
+    public function __construct(VisitorIdentifier $visitorIdentifier)
+    {
+        $this->visitorIdentifier = $visitorIdentifier;
+    }
 
     public function handle(Request $request, Closure $next): Response
     {
-        $visitorId = $this->getVisitorId($request);
+
+        $visitorId = $this->visitorIdentifier->getVisitorId($request);
+
         Log::info('TrackerJack: Current visitor ID', ['visitor_id' => $visitorId]);
 
         if ($this->shouldTrack($request)) {
@@ -107,31 +116,5 @@ class TrackVisits
         }
 
         return true;
-    }
-
-    protected function getVisitorId(Request $request): string
-    {
-        if ($request->hasCookie(config('trackerjack.cookie.name'))) {
-            return $request->cookie(config('trackerjack.cookie.name'));
-        }
-
-        Cookie::queue(
-            config('trackerjack.cookie.name'),
-            $footprint = $this->fingerprint($request),
-            config('trackerjack.cookie.ttl'),
-            null,
-            config('trackerjack.cookie.domain'),
-        );
-
-        return $footprint;
-    }
-
-    protected function fingerprint(Request $request): string
-    {
-        return sha1(implode('|', array_filter([
-            $request->ip(),
-            $request->header('User-Agent'),
-            config('trackerjack.uniqueness') ? Str::random(20) : null,
-        ])));
     }
 }

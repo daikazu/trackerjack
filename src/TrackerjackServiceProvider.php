@@ -20,6 +20,8 @@ class TrackerjackServiceProvider extends PackageServiceProvider
         $package
             ->name('trackerjack')
             ->hasConfigFile()
+            ->hasAssets()
+            ->hasRoute('web')
             ->hasMigration('create_trackerjack_tables')
             ->hasCommand(Commands\PruneVisitsCommand::class)
             ->hasCommand(Commands\PruneEventsCommand::class)
@@ -36,5 +38,6 @@ class TrackerjackServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         $this->app['router']->aliasMiddleware('trackerjack', TrackVisits::class);
+
     }
 }
