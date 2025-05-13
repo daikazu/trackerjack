@@ -41,12 +41,12 @@ class TrackerjackTuiCommand extends Command
             );
 
             match ($choice) {
-                'Recent Activity' => $this->showRecentActivity(),
+                'Recent Activity'  => $this->showRecentActivity(),
                 'Visitor Analysis' => $this->showVisitorAnalysis(),
                 'Event Statistics' => $this->showEventStatistics(),
-                'UTM Attribution' => $this->showUtmAttribution(),
-                'Visitor Journey' => $this->showVisitorJourney(),
-                'Exit' => exit(0),
+                'UTM Attribution'  => $this->showUtmAttribution(),
+                'Visitor Journey'  => $this->showVisitorJourney(),
+                'Exit'             => exit(0),
             };
         }
     }
@@ -98,7 +98,7 @@ class TrackerjackTuiCommand extends Command
         $this->newLine();
 
         // Get visitor frequency using a subquery
-        $visitorFrequency = DB::table(function ($query) use ($cutoff) {
+        $visitorFrequency = DB::table(function ($query) use ($cutoff): void {
             $query->select('visitor_id')
                 ->selectRaw('count(*) as visit_count')
                 ->from('trackerjack_visits')
@@ -352,11 +352,11 @@ class TrackerjackTuiCommand extends Command
         );
 
         match ($choice) {
-            'Search by ID' => $this->searchVisitorById($cutoff),
-            'Show frequent visitors' => $this->showFrequentVisitors($cutoff),
-            'Show recent visitors' => $this->showRecentVisitors($cutoff),
+            'Search by ID'                   => $this->searchVisitorById($cutoff),
+            'Show frequent visitors'         => $this->showFrequentVisitors($cutoff),
+            'Show recent visitors'           => $this->showRecentVisitors($cutoff),
             'Show visitors with most events' => $this->showVisitorsWithMostEvents($cutoff),
-            'Back to main menu' => null,
+            'Back to main menu'              => null,
         };
     }
 
@@ -593,9 +593,7 @@ class TrackerjackTuiCommand extends Command
 
         // Get all events and group by name and timestamp to ensure uniqueness
         $eventTypes = $visits->flatMap(fn ($visit) => $visit->events)
-            ->unique(function ($event) {
-                return $event->event_name . '_' . $event->created_at->timestamp;
-            })
+            ->unique(fn ($event) => $event->event_name . '_' . $event->created_at->timestamp)
             ->groupBy('event_name')
             ->map(fn ($events) => $events->count());
 

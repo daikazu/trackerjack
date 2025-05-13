@@ -5,9 +5,9 @@ beforeEach(function (): void {
     // Set up database configuration
     $this->app['config']->set('database.default', 'testing');
     $this->app['config']->set('database.connections.testing', [
-        'driver' => 'sqlite',
+        'driver'   => 'sqlite',
         'database' => ':memory:',
-        'prefix' => '',
+        'prefix'   => '',
     ]);
 
     $this->loadMigrationsFrom(__DIR__ . '/../fixtures/migrations');

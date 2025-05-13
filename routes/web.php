@@ -1,7 +1,8 @@
 <?php
 
 use Daikazu\Trackerjack\Http\Controllers\EventController;
+use Illuminate\Support\Facades\Route;
 
-\Illuminate\Support\Facades\Route::post('trackerjack/events', [EventController::class, 'store'])
+Route::post('trackerjack/events', [EventController::class, 'store'])
     ->name('trackerjack.events.store')
     ->middleware(['web', 'trackerjack']);

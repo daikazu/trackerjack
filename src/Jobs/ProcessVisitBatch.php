@@ -15,26 +15,28 @@ use Illuminate\Support\Collection;
 
 class ProcessVisitBatch implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public function __construct(
         protected Collection $visits
-    ) {
-    }
+    ) {}
 
     public function handle(): void
     {
         $now = now();
-        
+
         Visit::insert($this->visits->map(function (array $visit) use ($now) {
             $visitData = VisitData::fromArray($visit);
             $data = $visitData->toArray();
-            
+
             // Ensure timestamps are set for bulk insert
             $data['created_at'] = $now;
             $data['updated_at'] = $now;
-            
+
             return $data;
         })->toArray());
     }
-} 
+}

@@ -14,15 +14,17 @@ use Illuminate\Queue\SerializesModels;
 
 class ProcessEvent implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public function __construct(
         protected EventData $eventData
-    ) {
-    }
+    ) {}
 
     public function handle(): void
     {
         Event::create($this->eventData->toArray());
     }
-} 
+}

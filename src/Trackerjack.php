@@ -15,9 +15,9 @@ class Trackerjack
             Event::create([
                 'visitor_id' => $this->getVisitorId(),
                 'event_name' => $eventName,
-                'payload' => $payload,
-                'user_id' => auth()->id(),
-                'email' => auth()->user()?->email,
+                'payload'    => $payload,
+                'user_id'    => auth()->id(),
+                'email'      => auth()->user()?->email,
             ]);
         }
     }
@@ -30,7 +30,7 @@ class Trackerjack
             ->whereNull('user_id')
             ->update([
                 'user_id' => $user->id,
-                'email' => $user->email,
+                'email'   => $user->email,
             ]);
     }
 

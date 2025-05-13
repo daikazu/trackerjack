@@ -16,8 +16,7 @@ final readonly class EventData
         public ?string $email,
         public ?Carbon $createdAt = null,
         public ?Carbon $updatedAt = null,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): self
     {
@@ -37,11 +36,11 @@ final readonly class EventData
         return [
             'visitor_id' => $this->visitorId,
             'event_name' => $this->eventName,
-            'payload' => $this->payload,
-            'user_id' => $this->userId,
-            'email' => $this->email,
+            'payload'    => $this->payload,
+            'user_id'    => $this->userId,
+            'email'      => $this->email,
             'created_at' => $this->createdAt?->toDateTimeString(),
             'updated_at' => $this->updatedAt?->toDateTimeString(),
         ];
     }
-} 
+}

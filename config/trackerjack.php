@@ -13,8 +13,8 @@ return [
     |
     */
     'cookie' => [
-        'name' => 'trackerjack_id',
-        'ttl' => 60 * 24 * 365, // 1 year in minutes
+        'name'   => 'trackerjack_id',
+        'ttl'    => 60 * 24 * 365, // 1 year in minutes
         'domain' => env('SESSION_DOMAIN'),
     ],
 
@@ -98,9 +98,9 @@ return [
     |
     */
     'queue' => [
-        'batch_size' => env('TRACKERJACK_BATCH_SIZE', 100),
-        'queue_name' => env('TRACKERJACK_QUEUE', 'default'),
+        'batch_size'  => env('TRACKERJACK_BATCH_SIZE', 100),
+        'queue_name'  => env('TRACKERJACK_QUEUE', 'default'),
         'retry_after' => env('TRACKERJACK_RETRY_AFTER', 60),
-        'tries' => env('TRACKERJACK_TRIES', 3),
+        'tries'       => env('TRACKERJACK_TRIES', 3),
     ],
 ];

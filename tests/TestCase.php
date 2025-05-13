@@ -5,9 +5,11 @@ namespace Daikazu\Trackerjack\Tests;
 use Daikazu\Trackerjack\TrackerjackServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Override;
 
 class TestCase extends Orchestra
 {
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

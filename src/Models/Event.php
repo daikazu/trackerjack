@@ -26,8 +26,8 @@ class Event extends Model
 
     protected $casts = [
         'visitor_id' => 'string',
-        'payload' => 'array',
-        'user_id' => 'integer',
+        'payload'    => 'array',
+        'user_id'    => 'integer',
     ];
 
     public function visit(): BelongsTo

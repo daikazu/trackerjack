@@ -30,9 +30,7 @@ class TrackerjackServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->singleton('trackerjack', function ($app) {
-            return new Trackerjack;
-        });
+        $this->app->singleton('trackerjack', fn ($app) => new Trackerjack);
     }
 
     public function packageBooted(): void

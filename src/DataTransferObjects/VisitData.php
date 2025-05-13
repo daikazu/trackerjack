@@ -22,8 +22,7 @@ final readonly class VisitData
         public ?string $userAgent,
         public ?Carbon $createdAt = null,
         public ?Carbon $updatedAt = null,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): self
     {
@@ -47,19 +46,19 @@ final readonly class VisitData
     public function toArray(): array
     {
         return [
-            'visitor_id' => $this->visitorId,
-            'url' => $this->url,
-            'referrer' => $this->referrer,
-            'utm_source' => $this->utmSource,
-            'utm_medium' => $this->utmMedium,
+            'visitor_id'   => $this->visitorId,
+            'url'          => $this->url,
+            'referrer'     => $this->referrer,
+            'utm_source'   => $this->utmSource,
+            'utm_medium'   => $this->utmMedium,
             'utm_campaign' => $this->utmCampaign,
-            'utm_term' => $this->utmTerm,
-            'utm_content' => $this->utmContent,
-            'gclid' => $this->gclid,
-            'ip_address' => $this->ipAddress,
-            'user_agent' => $this->userAgent,
-            'created_at' => $this->createdAt?->toDateTimeString(),
-            'updated_at' => $this->updatedAt?->toDateTimeString(),
+            'utm_term'     => $this->utmTerm,
+            'utm_content'  => $this->utmContent,
+            'gclid'        => $this->gclid,
+            'ip_address'   => $this->ipAddress,
+            'user_agent'   => $this->userAgent,
+            'created_at'   => $this->createdAt?->toDateTimeString(),
+            'updated_at'   => $this->updatedAt?->toDateTimeString(),
         ];
     }
-} 
+}

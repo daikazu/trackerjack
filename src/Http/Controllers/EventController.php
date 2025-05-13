@@ -13,18 +13,13 @@ use Illuminate\Routing\Controller;
 
 class EventController extends Controller
 {
-    protected VisitorIdentifier $visitorIdentifier;
-
-    public function __construct(VisitorIdentifier $visitorIdentifier)
-    {
-        $this->visitorIdentifier = $visitorIdentifier;
-    }
+    public function __construct(protected VisitorIdentifier $visitorIdentifier) {}
 
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'event_name' => 'required|string|max:255',
-            'payload' => 'nullable|array',
+            'payload'    => 'nullable|array',
         ]);
 
         $visitorId = $this->visitorIdentifier->getVisitorId($request);

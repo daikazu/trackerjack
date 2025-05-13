@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('trackerjack_visits', function (Blueprint $table) {
+        Schema::create('trackerjack_visits', function (Blueprint $table): void {
             $table->id();
             $table->char('visitor_id', 40)->index();
             $table->string('url');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('trackerjack_events', function (Blueprint $table) {
+        Schema::create('trackerjack_events', function (Blueprint $table): void {
             $table->id();
             $table->char('visitor_id', 40)->index();
             $table->string('event_name');

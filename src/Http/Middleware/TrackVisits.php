@@ -17,12 +17,7 @@ class TrackVisits
 
     protected const BATCH_SIZE = 100;
 
-    protected VisitorIdentifier $visitorIdentifier;
-
-    public function __construct(VisitorIdentifier $visitorIdentifier)
-    {
-        $this->visitorIdentifier = $visitorIdentifier;
-    }
+    public function __construct(protected VisitorIdentifier $visitorIdentifier) {}
 
     public function handle(Request $request, Closure $next): Response
     {
@@ -40,8 +35,8 @@ class TrackVisits
         $hasCookie = $request->cookie($cookieName);
 
         Log::info('TrackerJack: Cookie status', [
-            'cookie_name' => $cookieName,
-            'has_cookie' => $hasCookie,
+            'cookie_name'     => $cookieName,
+            'has_cookie'      => $hasCookie,
             'response_status' => $response->status(),
         ]);
 
@@ -74,17 +69,17 @@ class TrackVisits
     protected function queueVisit(Request $request, string $visitorId): void
     {
         $visit = [
-            'visitor_id' => $visitorId,
-            'url' => $request->fullUrl(),
-            'referrer' => $request->header('referer'),
-            'utm_source' => $request->get('utm_source'),
-            'utm_medium' => $request->get('utm_medium'),
+            'visitor_id'   => $visitorId,
+            'url'          => $request->fullUrl(),
+            'referrer'     => $request->header('referer'),
+            'utm_source'   => $request->get('utm_source'),
+            'utm_medium'   => $request->get('utm_medium'),
             'utm_campaign' => $request->get('utm_campaign'),
-            'utm_term' => $request->get('utm_term'),
-            'utm_content' => $request->get('utm_content'),
-            'gclid' => $request->get('gclid'),
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
+            'utm_term'     => $request->get('utm_term'),
+            'utm_content'  => $request->get('utm_content'),
+            'gclid'        => $request->get('gclid'),
+            'ip_address'   => $request->ip(),
+            'user_agent'   => $request->userAgent(),
         ];
 
         self::$visitBuffer[] = $visit;
