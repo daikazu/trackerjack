@@ -2,9 +2,9 @@
 
 namespace Daikazu\Trackerjack\Tests;
 
+use Daikazu\Trackerjack\TrackerjackServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Daikazu\Trackerjack\TrackerjackServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -13,15 +13,8 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Daikazu\\Trackerjack\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Daikazu\\Trackerjack\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [
-            TrackerjackServiceProvider::class,
-        ];
     }
 
     public function getEnvironmentSetUp($app)
@@ -33,5 +26,12 @@ class TestCase extends Orchestra
             (include $migration->getRealPath())->up();
          }
          */
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            TrackerjackServiceProvider::class,
+        ];
     }
 }
