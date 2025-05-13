@@ -5,18 +5,32 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/daikazu/trackerjack/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/daikazu/trackerjack/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/daikazu/trackerjack.svg?style=flat-square)](https://packagist.org/packages/daikazu/trackerjack)
 
-A Laravel package for tracking visitor behavior and events.
+A Laravel package for tracking visitor behavior and events with advanced analytics capabilities.
 
 ## Features
 
 - Automatic visit tracking with middleware
 - Custom event tracking
-- UTM parameter tracking
+- UTM parameter tracking (including gclid)
 - User binding for anonymous events
 - High-performance queue-based processing
 - Batch processing for efficient database writes
-- Terminal UI for data analysis
+- Terminal UI for data analysis and visualization
 - Automatic data cleanup
+- Visitor fingerprinting
+- Event whitelisting
+- Route exclusions
+- Configurable cookie settings
+- Type-safe data handling with DTOs
+- Advanced visitor journey analysis
+- Event sequence tracking
+- Time-based analytics
+- UTM attribution analysis
+
+## Requirements
+
+- PHP 8.4+
+- Laravel 10.0+ or 11.0+ or 12.0+
 
 ## Installation
 
@@ -71,8 +85,7 @@ ProcessEvent::dispatch($eventData);
 
 Trackerjack provides a simple JavaScript helper for tracking events from your frontend code. First, include the JavaScript file in your layout:
 
-
-add the following to your head
+Add the following to your head:
 ```html
 <meta name="csrf-token" content="{{ csrf_token() }}">
 ```
@@ -133,6 +146,7 @@ $visitData = new VisitData(
     utmCampaign: 'spring_sale',
     utmTerm: 'shoes',
     utmContent: 'banner1',
+    gclid: 'abc123xyz',
     ipAddress: '127.0.0.1',
     userAgent: 'Mozilla/5.0...'
 );
@@ -158,6 +172,23 @@ Both DTOs provide:
 - Array conversion methods (`fromArray` and `toArray`)
 - Automatic timestamp handling
 
+### Terminal UI
+
+Trackerjack includes a terminal UI for analyzing your tracking data. Run the following command to access it:
+
+```bash
+php artisan trackerjack:tui
+```
+
+The terminal UI provides:
+- Recent activity overview
+- Visitor analysis
+- Event statistics
+- UTM attribution analysis
+- Visitor journey tracking
+- Time-based analytics
+- Event sequence analysis
+
 ### Performance Features
 
 1. **Queue-Based Processing**: All tracking operations are processed asynchronously through Laravel's queue system.
@@ -175,6 +206,18 @@ Both DTOs provide:
 
 6. **Type-Safe Data Handling**: DTOs ensure data consistency and type safety throughout the application.
 
+### Data Cleanup
+
+Trackerjack includes commands to clean up old tracking data:
+
+```bash
+# Clean up old visits
+php artisan trackerjack:prune-visits
+
+# Clean up old events
+php artisan trackerjack:prune-events
+```
+
 ## Configuration Options
 
 ```php
@@ -191,6 +234,7 @@ return [
         'utm_campaign',
         'utm_term',
         'utm_content',
+        'gclid',
     ],
 
     'excluded_routes' => [
